@@ -7,7 +7,7 @@ from datetime import datetime
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-import GUI_calculator
+import gui_calculator
 import resources
 from data_manager import DataManager
 
