@@ -34,7 +34,7 @@ def service_info(enable=0):
     return wrapper
 
 
-class Exx(QtWidgets.QMainWindow, GUI_calculator.Ui_MainWindow, DataManager):
+class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
