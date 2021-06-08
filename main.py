@@ -170,8 +170,8 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         self.num_eq.setEnabled(True)
         self.operation_val = value
         self.remove_sep()
-        if self.operand_pass is True and self.oper != [] and \
-                self.point_eq is not True:
+        if self.operand_pass is True and (self.oper != []
+                                          and self.point_eq is not True):
             self.eq()
         self.operand_pass = False
         self.oper = [self.amount_operand, self.operation_val]
@@ -205,17 +205,21 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
     def calculation(self):
         if self.oper[1] == '+':
             self.result = str(self.float_to_int(
-                Decimal(self.oper[0])+Decimal(self.oper[2])))
+                Decimal(self.oper[0])
+                + Decimal(self.oper[2])))
         elif self.oper[1] == '-':
             self.result = str(self.float_to_int(
-                Decimal(self.oper[0])-Decimal(self.oper[2])))
+                Decimal(self.oper[0])
+                - Decimal(self.oper[2])))
         elif self.oper[1] == '*':
             self.result = str(self.float_to_int(
-                Decimal(self.oper[0])*Decimal(self.oper[2])))
+                Decimal(self.oper[0])
+                * Decimal(self.oper[2])))
         try:
             if self.oper[1] == '/':
                 self.result = str(self.float_to_int(
-                    Decimal(self.oper[0])/Decimal(self.oper[2])))
+                    Decimal(self.oper[0])
+                    / Decimal(self.oper[2])))
         except ZeroDivisionError:
             self.lcdNumber.display('error')
             self.history.clear()
@@ -288,8 +292,9 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         if operation == 'procent' and len(self.oper) > 0:
             self.num_conversion = ' '.join([str(self.lcdNumber.value()),
                                             '% из', self.oper[0]])
-            self.amount_operand = self.float_to_int(
-                self.oper[0])/100*float(self.amount_operand)
+            self.amount_operand = (self.float_to_int(self.oper[0])
+                                   / 100
+                                   * float(self.amount_operand))
             self.label.setText('procent')
         elif operation == 'sqrt_num':
             self.num_conversion = ' '.join(['квадратный корень из',
@@ -299,8 +304,8 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
                 self.lcdNumber.value()))
             self.amount_operand = str(self.sqrt_of_num)
             self.label.setText('sqrt')
-        if (len(self.oper) > 0 and operation == 'procent') \
-           or operation == 'sqrt_num':
+        if ((len(self.oper) > 0 and operation == 'procent')
+                or operation == 'sqrt_num'):
             self.amount_operand = '{:.12g}'.format(float(self.amount_operand))
             self.lcdNumber.display(self.amount_operand)
             self.operand.clear()
@@ -344,7 +349,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         self.num_eq.setEnabled(False)
 
     @service_info(0)
-    def closeEvent(self, event):  # действие при закрытии
+    def closeEvent(self, event):
         if self.insert_data != []:
             DataManager.write_data(self.insert_data)
 
