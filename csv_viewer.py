@@ -22,7 +22,6 @@ class Window(QWidget):
         self.setWindowIcon(QIcon(':/resource/viewer.png'))
         self.open_file()
         if self.file:
-            # self.table.setSortingEnabled(True)
             self.table.horizontalHeader().setSectionResizeMode(
                 QHeaderView.Stretch)
             self.table.horizontalHeader().setDefaultSectionSize(120)
@@ -31,7 +30,6 @@ class Window(QWidget):
 
     def open_file(self):
         if not os.path.exists('saves/data.csv'):
-            # raise FileNotFoundError('Отсутствуют сохранения')
             self.label = QLabel(self)
             self.label.setText('Отсутствуют сохранения')
             self.g_layout.addWidget(self.label)
