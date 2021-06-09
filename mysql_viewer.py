@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import sys
 from data_manager import DataBaseQuery
 from config import config
@@ -51,14 +49,16 @@ class Window(QWidget):
         super().keyPressEvent(event)
 
     def init_request(self):
+        '''задает диапазон значений для просмотра'''
         try:
             with DataBaseQuery(config) as cursor:
                 operation = """SELECT count(*) FROM calculator"""
                 cursor.execute(operation)
-                file = cursor.fetchone()
-                self.max_len(*file)
-        except AttributeError:
-            pass
+        except AttributeError as err:
+            print(f'mysql_viewer Error: {err}')
+        else:
+            file = cursor.fetchone()
+            self.max_len(*file)
 
     def request(self):
         from_val = self.spin.value() - 1
@@ -75,11 +75,12 @@ class Window(QWidget):
                                 FROM calculator"""
                     files = [result.fetchall() for result in cursor.execute(
                         operation, multi=True)]
-                    self.file = files[0]
-                    self.max_len(files[1][0][0])
-                    self.browse()
-            except AttributeError:
-                pass
+            except AttributeError as err:
+                print(f'mysql_viewer Error: {err}')
+            else:
+                self.file = files[0]
+                self.max_len(files[1][0][0])
+                self.browse()
 
     def max_len(self, val):
         self.max_length = val
