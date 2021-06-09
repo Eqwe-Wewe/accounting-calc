@@ -2,7 +2,7 @@ import sys
 import os
 import json
 from datetime import datetime
-from PyQt5.QtWidgets import (QWidget, QApplication, QListWidget, QGridLayout)
+from PyQt5.QtWidgets import QWidget, QApplication, QListWidget, QGridLayout
 from PyQt5.QtGui import QIcon
 import resources
 
