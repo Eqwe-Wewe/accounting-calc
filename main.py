@@ -21,7 +21,6 @@ def service_info(enable=0):
                       f'{self.operand = }',
                       f'{self.operand_pass = }',
                       f'{self.oper = }',
-                      f'{self.plus_minus = }',
                       f'{self.point_eq = }',
                       f'{self.p_point = }',
                       f'{self.amount_operand = }',
@@ -111,14 +110,11 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         # ячейка памяти
         self.memory_cell = 0
 
-        # флаг-допуск ввода данных на экран
+        # флаг допуска ввода данных на экран
         self.operand_pass = False
 
         # флаг десятичной точки
         self.p_point = False
-
-        # если False - знак плюс перед операндом
-        self.plus_minus = False
 
         # флаг соверщения операции '='
         self.point_eq = False
@@ -171,7 +167,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         self.operation_val = value
         self.remove_sep()
         if self.operand_pass is True and (self.oper != []
-                                          and self.point_eq is not True):
+                                          and self.point_eq is False):
             self.eq()
         self.operand_pass = False
         self.oper = [self.amount_operand, self.operation_val]
@@ -280,11 +276,14 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
     @service_info()
     def plus_to_minus(self):
         '''изменение знака у числа'''
-        if '-' not in self.operand:
-            self.operand.insert(0, '-')
+        if self.operand != ['0'] and []:
+            if '-' not in self.operand:
+                self.operand.insert(0, '-')
+            else:
+                self.operand.remove('-')
+            self.amount_operand = ''.join(self.operand)
         else:
-            self.operand.remove('-')
-        self.amount_operand = ''.join(self.operand)
+            self.amount_operand = str(-self.float_to_int(self.amount_operand))
         self.lcdNumber.display(self.amount_operand)
 
     @service_info()
