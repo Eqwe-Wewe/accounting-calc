@@ -40,6 +40,9 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         DataManager.__init__(self)
         self.init_var()
 
+        # ячейка памяти
+        self.memory_cell = 0
+
         # отображение чисел после нажатия кнопки
         self.num_0.pressed.connect(lambda: self.input_operand('0'))
         self.num_1.pressed.connect(lambda: self.input_operand('1'))
@@ -58,15 +61,18 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         self.num_division.pressed.connect(lambda: self.operation('/'))
         self.num_mult.pressed.connect(lambda: self.operation('*'))
         self.num_point.pressed.connect(self.point)
-        self.num_plus_minus.pressed.connect(self.plus_to_minus)
-        self.num_c.pressed.connect(self.cancel)
-        self.num_ce.pressed.connect(self.cancel_ce)
+        self.num_plus_minus.pressed.connect(self.sign_change)
+        self.num_c.pressed.connect(self.clear_all)
+        self.num_ce.pressed.connect(self.clear_entry)
+        self.num_backspace.pressed.connect(self.backspace)
         self.num_eq.pressed.connect(self.eq)
         self.num_eq.setEnabled(False)
-        self.num_mc.pressed.connect(lambda: self.memory('clear'))
-        self.num_mr.pressed.connect(lambda: self.memory('read'))
-        self.num_m_minus.pressed.connect(lambda: self.memory('memory-'))
-        self.num_m_plus.pressed.connect(lambda: self.memory('memory+'))
+        self.num_mc.pressed.connect(self.memory_clear)
+        self.num_mr.pressed.connect(self.memory_read)
+        self.num_m_minus.pressed.connect(
+            lambda: self.memory_add_sub('memory-'))
+        self.num_m_plus.pressed.connect(
+            lambda: self.memory_add_sub('memory+'))
         self.num_procent.pressed.connect(
             lambda: self.extended_operations(
                 'procent'))
@@ -95,7 +101,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         elif k == Qt.Key_Percent:
             pass
         elif k == Qt.Key_Backspace:
-            self.cancel_ce()
+            self.backspace()
         elif k == Qt.Key_Period or Qt.Key_Comma:
             self.point()
         super().keyPressEvent(event)
@@ -107,9 +113,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         # хранит хранит 2 операнда и знак операции
         self.oper = []
 
-        # ячейка памяти
-        self.memory_cell = 0
-
         # флаг допуска ввода данных на экран
         self.operand_pass = False
 
@@ -119,12 +122,9 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         # флаг соверщения операции '='
         self.point_eq = False
 
-        # целое значение операнда
+        # флаг очистки введеного числа
+        self.point_ce = False
         self.init_operand()
-
-        #  доп. инфо по операциям на экране
-        self.label.setText('')
-        self.label_memory.setText('')
 
     def init_operand(self):
         self.operand = ['0']
@@ -159,7 +159,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         self.amount_operand = ''.join(self.operand)
         self.lcdNumber.display(self.amount_operand)
         self.operand_pass = True
-        self.label.clear()
 
     @service_info()
     def operation(self, value):
@@ -195,7 +194,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.point_eq = True
             self.point_operation = False
             self.p_point = False
-            self.label.clear()
 
     @service_info()
     def calculation(self):
@@ -246,23 +244,30 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.history.setText(' '.join([a, b]))
 
     @service_info()
-    def memory(self, argument):
-        ''' операции с ячейкой памяти '''
-        if argument == 'read':
-            for num in list(str(self.float_to_int(self.memory_cell))):
-                self.input_operand(num)
-            self.operand_pass = True
-            self.point_operation = False
-            self.operand.clear()
-        elif argument == 'memory+':
+    def memory_read(self):
+        self.operand.clear()
+        for num in list(str(self.float_to_int(self.memory_cell))):
+            self.input_operand(num)
+        self.operand_pass = True
+        self.point_operation = False
+        self.operand.clear()
+
+    def memory_clear(self):
+        self.memory_cell = 0
+        self.label.clear()
+
+    def memory_add_sub(self, argument):
+        if argument == 'memory+':
             self.memory_cell += self.lcdNumber.value()
-            self.memory_cell = float('{:.12g}'.format(self.memory_cell))
         elif argument == 'memory-':
             self.memory_cell -= self.lcdNumber.value()
-            self.memory_cell = float('{:.12g}'.format(self.memory_cell))
-        elif argument == 'clear':
-            self.memory_cell = 0
-        self.label.setText(argument)
+        self.memory_cell = self.float_to_int(
+            '{:.12g}'.format(self.memory_cell))
+        self.operand.clear()
+        if self.memory_cell != 0:
+            self.label.setText('M')
+        else:
+            self.label.clear()
 
     @service_info()
     def point(self):
@@ -274,7 +279,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.p_point = True
 
     @service_info()
-    def plus_to_minus(self):
+    def sign_change(self):
         '''изменение знака у числа'''
         if self.operand != ['0'] and []:
             if '-' not in self.operand:
@@ -294,7 +299,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.amount_operand = (self.float_to_int(self.oper[0])
                                    / 100
                                    * float(self.amount_operand))
-            self.label.setText('procent')
         elif operation == 'sqrt_num':
             self.num_conversion = ' '.join(['квадратный корень из',
                                             str(self.float_to_int(
@@ -302,7 +306,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.sqrt_of_num = self.float_to_int(math.sqrt(
                 self.lcdNumber.value()))
             self.amount_operand = str(self.sqrt_of_num)
-            self.label.setText('sqrt')
         if ((len(self.oper) > 0 and operation == 'procent')
                 or operation == 'sqrt_num'):
             self.amount_operand = '{:.12g}'.format(float(self.amount_operand))
@@ -326,7 +329,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         return float(result)
 
     @service_info()
-    def cancel_ce(self):
+    def backspace(self):
         if len(self.operand) != 0:
             element = self.operand.pop(-1)
             if element == '.':
@@ -337,12 +340,11 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
                                           and self.operand[0] == '-'):
                 self.init_operand()
 
-        # очистка после self.eq()
-        if self.point_eq is True:
-            self.cancel()
+    def clear_entry(self):
+        self.init_operand()
 
     @service_info()
-    def cancel(self):
+    def clear_all(self):
         self.history.clear()
         self.init_var()
         self.num_eq.setEnabled(False)
