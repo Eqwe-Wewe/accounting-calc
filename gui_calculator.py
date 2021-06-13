@@ -15,9 +15,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(471, 410)
-        MainWindow.setMinimumSize(QtCore.QSize(471, 400))
-        MainWindow.setMaximumSize(QtCore.QSize(471, 410))
+        MainWindow.setFixedSize(QtCore.QSize(471, 400))
         MainWindow.setTabletTracking(False)
         MainWindow.setDockNestingEnabled(False)
         MainWindow.setUnifiedTitleAndToolBarOnMac(False)
@@ -35,197 +33,209 @@ class Ui_MainWindow(object):
         self.lcdNumber.setObjectName("lcdNumber")
         self.num_1 = QtWidgets.QPushButton(self.centralwidget)
         self.num_1.setGeometry(QtCore.QRect(10, 190, 91, 51))
-        self.num_1.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_1.setFont(font)
-        self.num_1.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_1.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_1.setObjectName("num_1")
         self.buttonGroup = QtWidgets.QButtonGroup(MainWindow)
         self.buttonGroup.setObjectName("buttonGroup")
         self.buttonGroup.addButton(self.num_1)
         self.num_2 = QtWidgets.QPushButton(self.centralwidget)
         self.num_2.setGeometry(QtCore.QRect(100, 190, 91, 51))
-        self.num_2.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_2.setFont(font)
-        self.num_2.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_2.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_2.setObjectName("num_2")
         self.buttonGroup.addButton(self.num_2)
         self.num_3 = QtWidgets.QPushButton(self.centralwidget)
         self.num_3.setGeometry(QtCore.QRect(190, 190, 91, 51))
-        self.num_3.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_3.setFont(font)
-        self.num_3.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_3.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_3.setObjectName("num_3")
         self.buttonGroup.addButton(self.num_3)
         self.num_plus = QtWidgets.QPushButton(self.centralwidget)
         self.num_plus.setGeometry(QtCore.QRect(280, 190, 91, 51))
-        self.num_plus.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_plus.setFont(font)
-        self.num_plus.setStyleSheet("background-color: rgb(255, 85, 0);\n"
-"color: rgb(255, 255, 255);")
+        self.num_plus.setStyleSheet(
+            "background-color: rgb(255, 85, 0);\n"
+            "color: rgb(255, 255, 255);")
         self.num_plus.setObjectName("num_plus")
         self.num_4 = QtWidgets.QPushButton(self.centralwidget)
         self.num_4.setGeometry(QtCore.QRect(10, 240, 91, 51))
-        self.num_4.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_4.setFont(font)
-        self.num_4.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_4.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_4.setObjectName("num_4")
         self.buttonGroup.addButton(self.num_4)
         self.num_5 = QtWidgets.QPushButton(self.centralwidget)
         self.num_5.setGeometry(QtCore.QRect(100, 240, 91, 51))
-        self.num_5.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_5.setFont(font)
-        self.num_5.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_5.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_5.setObjectName("num_5")
         self.buttonGroup.addButton(self.num_5)
         self.num_6 = QtWidgets.QPushButton(self.centralwidget)
         self.num_6.setGeometry(QtCore.QRect(190, 240, 91, 51))
-        self.num_6.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_6.setFont(font)
-        self.num_6.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_6.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_6.setObjectName("num_6")
         self.buttonGroup.addButton(self.num_6)
         self.num_minus = QtWidgets.QPushButton(self.centralwidget)
         self.num_minus.setGeometry(QtCore.QRect(280, 240, 91, 51))
-        self.num_minus.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_minus.setFont(font)
-        self.num_minus.setStyleSheet("background-color: rgb(255, 85, 0);\n"
-"color: rgb(255, 255, 255);")
+        self.num_minus.setStyleSheet(
+            "background-color: rgb(255, 85, 0);\n"
+            "color: rgb(255, 255, 255);")
         self.num_minus.setObjectName("num_minus")
         self.num_7 = QtWidgets.QPushButton(self.centralwidget)
         self.num_7.setGeometry(QtCore.QRect(10, 290, 91, 51))
-        self.num_7.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_7.setFont(font)
-        self.num_7.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_7.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_7.setObjectName("num_7")
         self.buttonGroup.addButton(self.num_7)
         self.num_8 = QtWidgets.QPushButton(self.centralwidget)
         self.num_8.setGeometry(QtCore.QRect(100, 290, 91, 51))
-        self.num_8.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_8.setFont(font)
-        self.num_8.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_8.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_8.setObjectName("num_8")
         self.buttonGroup.addButton(self.num_8)
         self.num_9 = QtWidgets.QPushButton(self.centralwidget)
         self.num_9.setGeometry(QtCore.QRect(190, 290, 91, 51))
-        self.num_9.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_9.setFont(font)
-        self.num_9.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_9.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_9.setObjectName("num_9")
         self.buttonGroup.addButton(self.num_9)
         self.num_mult = QtWidgets.QPushButton(self.centralwidget)
         self.num_mult.setGeometry(QtCore.QRect(280, 290, 91, 51))
-        self.num_mult.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_mult.setFont(font)
-        self.num_mult.setStyleSheet("background-color: rgb(255, 85, 0);\n"
-"color: rgb(255, 255, 255);")
+        self.num_mult.setStyleSheet(
+            "background-color: rgb(255, 85, 0);\n"
+            "color: rgb(255, 255, 255);")
         self.num_mult.setObjectName("num_mult")
         self.num_point = QtWidgets.QPushButton(self.centralwidget)
         self.num_point.setGeometry(QtCore.QRect(10, 340, 91, 51))
-        self.num_point.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_point.setFont(font)
-        self.num_point.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_point.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_point.setObjectName("num_point")
         self.buttonGroup.addButton(self.num_point)
         self.num_0 = QtWidgets.QPushButton(self.centralwidget)
         self.num_0.setGeometry(QtCore.QRect(100, 340, 91, 51))
-        self.num_0.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_0.setFont(font)
-        self.num_0.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_0.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_0.setObjectName("num_0")
         self.buttonGroup.addButton(self.num_0)
         self.num_eq = QtWidgets.QPushButton(self.centralwidget)
         self.num_eq.setGeometry(QtCore.QRect(370, 340, 91, 51))
-        self.num_eq.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_eq.setFont(font)
-        self.num_eq.setStyleSheet("background-color: rgb(170, 0, 0);\n"
-"color: rgb(255, 255, 255);")
+        self.num_eq.setStyleSheet(
+            "background-color: rgb(170, 0, 0);\n"
+            "color: rgb(255, 255, 255);")
         self.num_eq.setObjectName("num_eq")
         self.num_division = QtWidgets.QPushButton(self.centralwidget)
         self.num_division.setGeometry(QtCore.QRect(280, 340, 91, 51))
-        self.num_division.setMinimumSize(QtCore.QSize(75, 23))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_division.setFont(font)
-        self.num_division.setStyleSheet("background-color: rgb(255, 85, 0);\n"
-"color: rgb(255, 255, 255);")
+        self.num_division.setStyleSheet(
+            "background-color: rgb(255, 85, 0);\n"
+            "color: rgb(255, 255, 255);")
         self.num_division.setObjectName("num_division")
         self.num_c = QtWidgets.QPushButton(self.centralwidget)
         self.num_c.setGeometry(QtCore.QRect(370, 150, 91, 41))
-        self.num_c.setMinimumSize(QtCore.QSize(91, 41))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_c.setFont(font)
-        self.num_c.setStyleSheet("background-color: rgb(255, 170, 0);\n"
-"color: rgb(255, 255, 255);")
+        self.num_c.setStyleSheet(
+            "background-color: rgb(255, 170, 0);\n"
+            "color: rgb(255, 255, 255);")
         self.num_c.setObjectName("num_c")
         self.num_ce = QtWidgets.QPushButton(self.centralwidget)
-        self.num_ce.setGeometry(QtCore.QRect(370, 190, 91, 51))
+        self.num_ce.setGeometry(QtCore.QRect(280, 150, 91, 41))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_ce.setFont(font)
-        self.num_ce.setStyleSheet("background-color: rgb(255, 170, 0);\n"
-"color: rgb(255, 255, 255);")
+        self.num_ce.setStyleSheet(
+            "background-color: rgb(255, 170, 0);\n"
+            "color: rgb(255, 255, 255);")
         self.num_ce.setShortcut("")
         self.num_ce.setAutoDefault(False)
         self.num_ce.setDefault(False)
         self.num_ce.setFlat(False)
         self.num_ce.setObjectName("num_ce")
+        self.num_backspace = QtWidgets.QPushButton(self.centralwidget)
+        self.num_backspace.setGeometry(QtCore.QRect(370, 190, 91, 51))
+        font = QtGui.QFont()
+        font.setPointSize(30)
+        self.num_backspace.setFont(font)
+        self.num_backspace.setStyleSheet(
+            "background-color: rgb(255, 85, 0);\n"
+            "color: rgb(255, 255, 255);")
+        self.num_backspace.setObjectName("num_backspace")
         self.num_procent = QtWidgets.QPushButton(self.centralwidget)
         self.num_procent.setGeometry(QtCore.QRect(370, 290, 91, 51))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_procent.setFont(font)
-        self.num_procent.setStyleSheet("background-color: rgb(255, 85, 0);\n"
-"color: rgb(255, 255, 255);")
+        self.num_procent.setStyleSheet(
+            "background-color: rgb(255, 85, 0);\n"
+            "color: rgb(255, 255, 255);")
         self.num_procent.setObjectName("num_procent")
         self.num_plus_minus = QtWidgets.QPushButton(self.centralwidget)
         self.num_plus_minus.setGeometry(QtCore.QRect(190, 340, 91, 51))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_plus_minus.setFont(font)
-        self.num_plus_minus.setStyleSheet("background-color: rgb(71, 64, 64);\n"
-"color: rgb(255, 255, 255);")
+        self.num_plus_minus.setStyleSheet(
+            "background-color: rgb(71, 64, 64);\n"
+            "color: rgb(255, 255, 255);")
         self.num_plus_minus.setObjectName("num_plus_minus")
         self.buttonGroup.addButton(self.num_plus_minus)
         self.history = QtWidgets.QLabel(self.centralwidget)
@@ -235,32 +245,38 @@ class Ui_MainWindow(object):
         self.history.setFont(font)
         self.history.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.history.setText("")
-        self.history.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.history.setAlignment(
+            QtCore.Qt.AlignRight |
+            QtCore.Qt.AlignTrailing |
+            QtCore.Qt.AlignVCenter)
         self.history.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse)
         self.history.setObjectName("history")
         self.num_mc = QtWidgets.QPushButton(self.centralwidget)
-        self.num_mc.setGeometry(QtCore.QRect(10, 150, 91, 41))
+        self.num_mc.setGeometry(QtCore.QRect(10, 150, 68, 41))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_mc.setFont(font)
-        self.num_mc.setStyleSheet("background-color: rgb(193, 193, 193); color: rgb(255, 255, 255);\n"
-"")
+        self.num_mc.setStyleSheet(
+            "background-color: rgb(193, 193, 193);"
+            "color: rgb(255, 255, 255);\n")
         self.num_mc.setObjectName("num_mc")
         self.num_mr = QtWidgets.QPushButton(self.centralwidget)
-        self.num_mr.setGeometry(QtCore.QRect(100, 150, 91, 41))
+        self.num_mr.setGeometry(QtCore.QRect(77, 150, 68, 41))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_mr.setFont(font)
-        self.num_mr.setStyleSheet("background-color: rgb(193, 193, 193); color: rgb(255, 255, 255);\n"
-"")
+        self.num_mr.setStyleSheet(
+            "background-color: rgb(193, 193, 193);"
+            "color: rgb(255, 255, 255);\n")
         self.num_mr.setObjectName("num_mr")
         self.num_m_minus = QtWidgets.QPushButton(self.centralwidget)
-        self.num_m_minus.setGeometry(QtCore.QRect(190, 150, 91, 41))
+        self.num_m_minus.setGeometry(QtCore.QRect(144, 150, 68, 41))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_m_minus.setFont(font)
-        self.num_m_minus.setStyleSheet("background-color: rgb(193, 193, 193); color: rgb(255, 255, 255);\n"
-"")
+        self.num_m_minus.setStyleSheet(
+            "background-color: rgb(193, 193, 193);"
+            "color: rgb(255, 255, 255);\n")
         self.num_m_minus.setObjectName("num_m_minus")
         self.num_sqrt = QtWidgets.QPushButton(self.centralwidget)
         self.num_sqrt.setGeometry(QtCore.QRect(370, 240, 91, 51))
@@ -270,41 +286,38 @@ class Ui_MainWindow(object):
         font.setBold(False)
         font.setWeight(50)
         self.num_sqrt.setFont(font)
-        self.num_sqrt.setStyleSheet("background-color: rgb(255, 85, 0);\n"
-"color: rgb(255, 255, 255);")
+        self.num_sqrt.setStyleSheet(
+            "background-color: rgb(255, 85, 0);\n"
+            "color: rgb(255, 255, 255);")
         self.num_sqrt.setObjectName("num_sqrt")
         self.num_m_plus = QtWidgets.QPushButton(self.centralwidget)
-        self.num_m_plus.setGeometry(QtCore.QRect(280, 150, 91, 41))
+        self.num_m_plus.setGeometry(QtCore.QRect(211, 150, 70, 41))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.num_m_plus.setFont(font)
-        self.num_m_plus.setStyleSheet("background-color: rgb(193, 193, 193); color: rgb(255, 255, 255);\n"
-"")
+        self.num_m_plus.setStyleSheet(
+            "background-color: rgb(193, 193, 193);"
+            "color: rgb(255, 255, 255);\n")
         self.num_m_plus.setObjectName("num_m_plus")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(410, 120, 51, 20))
+        self.label.setGeometry(QtCore.QRect(15, 43, 20, 20))
         font = QtGui.QFont()
-        font.setPointSize(9)
+        font.setPointSize(20)
         self.label.setFont(font)
         self.label.setObjectName("label")
-        self.label_memory = QtWidgets.QLabel(self.centralwidget)
-        self.label_memory.setGeometry(QtCore.QRect(400, 40, 51, 20))
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.label_memory.setFont(font)
-        self.label_memory.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.label_memory.setObjectName("label_memory")
         self.lcdNumber.raise_()
         self.history.raise_()
         self.num_mc.raise_()
         self.num_mr.raise_()
         self.num_m_minus.raise_()
         self.num_m_plus.raise_()
+        self.num_ce.raise_()
+        self.num_c.raise_()
         self.num_1.raise_()
         self.num_2.raise_()
         self.num_3.raise_()
         self.num_plus.raise_()
-        self.num_c.raise_()
+        self.num_backspace.raise_()
         self.num_4.raise_()
         self.num_7.raise_()
         self.num_point.raise_()
@@ -318,11 +331,9 @@ class Ui_MainWindow(object):
         self.num_plus_minus.raise_()
         self.num_division.raise_()
         self.label.raise_()
-        self.num_ce.raise_()
         self.num_sqrt.raise_()
         self.num_procent.raise_()
         self.num_eq.raise_()
-        self.label_memory.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -333,7 +344,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Калькулятор v1.01"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Калькулятор v1.1"))
         self.num_1.setText(_translate("MainWindow", "1"))
         self.num_2.setText(_translate("MainWindow", "2"))
         self.num_3.setText(_translate("MainWindow", "3"))
@@ -351,7 +362,8 @@ class Ui_MainWindow(object):
         self.num_eq.setText(_translate("MainWindow", "="))
         self.num_division.setText(_translate("MainWindow", "÷"))
         self.num_c.setText(_translate("MainWindow", "C"))
-        self.num_ce.setText(_translate("MainWindow", "->"))
+        self.num_ce.setText(_translate("MainWindow", "CE"))
+        self.num_backspace.setText(_translate("MainWindow", "←"))
         self.num_procent.setText(_translate("MainWindow", "%"))
         self.num_plus_minus.setText(_translate("MainWindow", "+/-"))
         self.num_mc.setText(_translate("MainWindow", "MC"))
@@ -359,5 +371,3 @@ class Ui_MainWindow(object):
         self.num_m_minus.setText(_translate("MainWindow", "M-"))
         self.num_sqrt.setText(_translate("MainWindow", "√"))
         self.num_m_plus.setText(_translate("MainWindow", "M+"))
-        self.label.setText(_translate("MainWindow", "Memory"))
-        self.label_memory.setText(_translate("MainWindow", "memory"))
