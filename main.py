@@ -122,8 +122,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         # флаг соверщения операции '='
         self.point_eq = False
 
-        # флаг очистки введеного числа
-        self.point_ce = False
         self.init_operand()
 
     def init_operand(self):
@@ -148,9 +146,9 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
 
         self.operand.append(num)
 
-        # отображение 12 значного числа, десятичного разделителя,
+        # отображение 12-ти значного числа, десятичного разделителя,
         # знака +/-
-        if '.' in self.operand:
+        if self.p_point is True or '-' in self.operand:
             self.operand = self.operand[:13]
         else:
             self.operand = self.operand[:12]
@@ -164,7 +162,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
     def operation(self, value):
         self.num_eq.setEnabled(True)
         self.operation_val = value
-        self.remove_sep()
+        self.remove_point()
         if self.operand_pass is True and (self.oper != []
                                           and self.point_eq is False):
             self.eq()
@@ -188,7 +186,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
 
         # бинарная операция
         else:
-            self.remove_sep()
+            self.remove_point()
             self.oper.append(self.amount_operand)
             self.calculation()
             self.point_eq = True
@@ -272,7 +270,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
     @service_info()
     def point(self):
         ''' десятичный разделитель '''
-        if self.p_point is False and len(self.operand) < 13:
+        if self.p_point is False and len(self.operand) < 12:
             if self.point_eq is True or self.operand == []:
                 self.input_operand('0')
             self.input_operand('.')
@@ -281,14 +279,12 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
     @service_info()
     def sign_change(self):
         '''изменение знака у числа'''
-        if self.operand != ['0'] and []:
+        if self.operand != ['0']:
             if '-' not in self.operand:
                 self.operand.insert(0, '-')
             else:
                 self.operand.remove('-')
-            self.amount_operand = ''.join(self.operand)
-        else:
-            self.amount_operand = str(-self.float_to_int(self.amount_operand))
+        self.amount_operand = str(-self.float_to_int(self.amount_operand))
         self.lcdNumber.display(self.amount_operand)
 
     @service_info()
@@ -317,7 +313,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
                                      datetime.now().isoformat()])
             # ----------------------------------------------------------
 
-    def remove_sep(self):
+    def remove_point(self):
         '''удаление десятичного разделителя у целого числа'''
         if self.amount_operand[-1] == '.':
             self.amount_operand = self.amount_operand[:-1:]
@@ -330,7 +326,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
 
     @service_info()
     def backspace(self):
-        if len(self.operand) != 0:
+        if len(self.operand) != 0 and self.point_eq is False:
             element = self.operand.pop(-1)
             if element == '.':
                 self.p_point = False
