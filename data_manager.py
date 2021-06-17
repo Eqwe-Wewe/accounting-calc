@@ -36,13 +36,19 @@ class DataManager:
     def write_csv(rows):
         try:
             if not os.path.exists('saves/data.csv'):
-                with open('saves/data.csv', 'w', newline='') as file:
+                with open('saves/data.csv',
+                          'w',
+                          newline='',
+                          encoding='utf-8') as file:
                     writer = csv.writer(file, delimiter=';')
                     writer.writerow([
                         'операции',
                         'результаты',
                         'время'])
-            with open('saves/data.csv', 'a', newline='') as file:
+            with open('saves/data.csv',
+                      'a',
+                      newline='',
+                      encoding='utf-8') as file:
                 writer = csv.writer(file, delimiter=';')
                 writer.writerows(rows)
                 print('CSV entry successful!')
@@ -65,7 +71,7 @@ class DataManager:
     def write_json(data_to_insert):
         try:
             if not os.path.exists('saves/data.json'):
-                with open('saves/data.json', 'w') as file:
+                with open('saves/data.json', 'w', encoding='utf-8') as file:
                     data = []
                     json_data = json.dumps(data, indent=3)
                     file.write(json_data)
@@ -73,7 +79,7 @@ class DataManager:
             with open('saves/data.json', 'r') as file:
                 json_data = json.load(file)
 
-            with open('saves/data.json', 'w') as file:
+            with open('saves/data.json', 'w', encoding='utf-8') as file:
                 for i in data_to_insert:
                     json_data.append({'operation': i[0],
                                       'result': i[1],
