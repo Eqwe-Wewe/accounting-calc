@@ -12,7 +12,7 @@ import resources
 from data_manager import DataManager
 
 
-def service_info(enable=0):
+def service_info(enable=1):
     def wrapper(method):
         def wrapper2(self, *args, **kwargs):
             result = method(self, *args, **kwargs)
@@ -107,13 +107,11 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         super().keyPressEvent(event)
 
     def init_var(self):
-        # операнд, записанный по разрядам
-        self.operand = []
 
         # хранит хранит 2 операнда и знак операции
         self.oper = []
 
-        # флаг допуска ввода данных на экран
+        # флаг ввода данных на экран
         self.operand_pass = False
 
         # флаг десятичной точки
@@ -122,12 +120,15 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         # флаг соверщения операции '='
         self.point_eq = False
 
-        self.init_operand()
+        self.init_operand(0)
 
-    def init_operand(self):
+    def init_operand(self, val):
+
+        # операнд, записанный по разрядам
         self.operand = ['0']
+
         self.amount_operand = '0'
-        self.lcdNumber.display(0)
+        self.lcdNumber.display(val)
 
     @service_info()
     def input_operand(self, num):
@@ -171,7 +172,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         if self.oper[1] != self.operation_val:
             self.oper[1] = self.operation_val
         self.operand.clear()
-        self.point_operation = True
         self.point_eq = False
         self.history_operations()
         self.p_point = False
@@ -190,11 +190,11 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.oper.append(self.amount_operand)
             self.calculation()
             self.point_eq = True
-            self.point_operation = False
             self.p_point = False
 
     @service_info()
     def calculation(self):
+        error = False
         if self.oper[1] == '+':
             self.result = str(self.float_to_int(
                 Decimal(self.oper[0])
@@ -207,27 +207,31 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.result = str(self.float_to_int(
                 Decimal(self.oper[0])
                 * Decimal(self.oper[2])))
-        try:
-            if self.oper[1] == '/':
+        elif self.oper[1] == '/':
+            try:
                 self.result = str(self.float_to_int(
                     Decimal(self.oper[0])
                     / Decimal(self.oper[2])))
-        except ZeroDivisionError:
-            self.lcdNumber.display('error')
-            self.history.clear()
-            self.oper.clear()
-            self.operand.clear()
-            self.num_eq.setEnabled(False)
+            except ZeroDivisionError:
+                self.init_operand('Error')
+                self.history.clear()
+                self.num_eq.setEnabled(False)
+                error = True
+        if error is True:
+            self.result = 'Error'
         else:
             self.result = '{:.12g}'.format(float(self.result))
-            # ------------------------write-----------------------------
-            self.insert_data.append([' '.join(self.oper),
-                                     self.result,
-                                     datetime.now().isoformat()])
-            # ----------------------------------------------------------
-            self.amount_operand = self.result
-            self.lcdNumber.display(self.result)
             self.history_operations()
+        # ------------------------write-----------------------------
+        self.insert_data.append([' '.join(self.oper),
+                                 self.result,
+                                 datetime.now().isoformat()])
+        # ----------------------------------------------------------
+        self.amount_operand = self.result
+        self.lcdNumber.display(self.result)
+        if error is True:
+            self.amount_operand = '0'
+            
 
     def history_operations(self):
         a = '{:,.15g}'.format(self.float_to_int(self.oper[0])).replace(
@@ -246,8 +250,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         self.operand.clear()
         for num in list(str(self.float_to_int(self.memory_cell))):
             self.input_operand(num)
-        self.operand_pass = True
-        self.point_operation = False
         self.operand.clear()
 
     def memory_clear(self):
@@ -289,29 +291,40 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
 
     @service_info()
     def extended_operations(self, operation):
+        error = False
         if operation == 'procent' and len(self.oper) > 0:
-            self.num_conversion = ' '.join([str(self.lcdNumber.value()),
+            self.num_conversion = ' '.join([str(self.float_to_int(
+                                            self.lcdNumber.value())),
                                             '% из', self.oper[0]])
             self.amount_operand = (self.float_to_int(self.oper[0])
                                    / 100
                                    * float(self.amount_operand))
         elif operation == 'sqrt_num':
-            self.num_conversion = ' '.join(['квадратный корень из',
-                                            str(self.float_to_int(
-                                                self.lcdNumber.value()))])
-            self.sqrt_of_num = self.float_to_int(math.sqrt(
-                self.lcdNumber.value()))
-            self.amount_operand = str(self.sqrt_of_num)
-        if ((len(self.oper) > 0 and operation == 'procent')
-                or operation == 'sqrt_num'):
+            try:
+                self.num_conversion = ' '.join(['квадратный корень из',
+                                                str(self.float_to_int(
+                                                    self.lcdNumber.value()))])
+                self.sqrt_of_num = self.float_to_int(math.sqrt(
+                    self.lcdNumber.value()))
+            except ValueError:
+                error = True
+                self.init_operand('Error')
+            else:
+                self.amount_operand = str(self.sqrt_of_num)
+        if error is True:
+            self.amount_operand = 'Error'
+        elif ((len(self.oper) > 0 and operation == 'procent')
+                or operation == 'sqrt_num' and error is False):
             self.amount_operand = '{:.12g}'.format(float(self.amount_operand))
             self.lcdNumber.display(self.amount_operand)
             self.operand.clear()
-            # -------------------------write----------------------------
-            self.insert_data.append([self.num_conversion,
-                                     self.amount_operand,
-                                     datetime.now().isoformat()])
-            # ----------------------------------------------------------
+        # -------------------------write----------------------------
+        self.insert_data.append([self.num_conversion,
+                                 self.amount_operand,
+                                 datetime.now().isoformat()])
+        # ----------------------------------------------------------
+        if error is True:
+            self.amount_operand = '0'
 
     def remove_point(self):
         '''удаление десятичного разделителя у целого числа'''
@@ -334,10 +347,10 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.lcdNumber.display(self.amount_operand)
             if len(self.operand) == 0 or (len(self.operand) == 1
                                           and self.operand[0] == '-'):
-                self.init_operand()
+                self.init_operand(0)
 
     def clear_entry(self):
-        self.init_operand()
+        self.init_operand(0)
 
     @service_info()
     def clear_all(self):
