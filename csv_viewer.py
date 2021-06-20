@@ -36,7 +36,7 @@ class Window(QWidget):
             self.file = False
         else:
             self.file = True
-            with open('saves/data.csv') as file:
+            with open('saves/data.csv', encoding='utf-8') as file:
                 reader = csv.reader(file, delimiter=';')
                 for num, row in enumerate(reader, -1):
                     self.table.insertRow(num)
