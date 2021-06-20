@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sys
 from data_manager import DataBaseQuery
 from config import config
@@ -38,7 +40,7 @@ class Window(QWidget):
         self.label_2.setAlignment(Qt.AlignCenter)
         self.label_2.setText('total')
         self.g_layout.addWidget(self.label_2, 1, 3, 1, 1)
-        self.setWindowTitle('Request from the database')
+        self.setWindowTitle('MySQL viewer')
         self.setWindowIcon(QIcon(':/resource/viewer.png'))
         self.init_request()
 
