@@ -107,13 +107,11 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         super().keyPressEvent(event)
 
     def init_var(self):
-        # операнд, записанный по разрядам
-        self.operand = []
 
         # хранит хранит 2 операнда и знак операции
         self.oper = []
 
-        # флаг допуска ввода данных на экран
+        # флаг ввода данных на экран
         self.operand_pass = False
 
         # флаг десятичной точки
@@ -122,12 +120,15 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         # флаг соверщения операции '='
         self.point_eq = False
 
-        self.init_operand()
+        self.init_operand(0)
 
-    def init_operand(self):
+    def init_operand(self, val):
+
+        # операнд, записанный по разрядам
         self.operand = ['0']
+
         self.amount_operand = '0'
-        self.lcdNumber.display(0)
+        self.lcdNumber.display(val)
 
     @service_info()
     def input_operand(self, num):
@@ -171,7 +172,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         if self.oper[1] != self.operation_val:
             self.oper[1] = self.operation_val
         self.operand.clear()
-        self.point_operation = True
         self.point_eq = False
         self.history_operations()
         self.p_point = False
@@ -190,7 +190,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.oper.append(self.amount_operand)
             self.calculation()
             self.point_eq = True
-            self.point_operation = False
             self.p_point = False
 
     @service_info()
@@ -213,10 +212,9 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
                     Decimal(self.oper[0])
                     / Decimal(self.oper[2])))
         except ZeroDivisionError:
-            self.lcdNumber.display('error')
+            self.init_operand('Error')
             self.history.clear()
             self.oper.clear()
-            self.operand.clear()
             self.num_eq.setEnabled(False)
         else:
             self.result = '{:.12g}'.format(float(self.result))
@@ -241,8 +239,6 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         self.operand.clear()
         for num in list(str(self.float_to_int(self.memory_cell))):
             self.input_operand(num)
-        self.operand_pass = True
-        self.point_operation = False
         self.operand.clear()
 
     def memory_clear(self):
@@ -284,16 +280,22 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
 
     @service_info()
     def extended_operations(self, operation):
+        error = False
         if operation == 'procent' and len(self.oper) > 0:
             self.amount_operand = (self.float_to_int(self.oper[0])
                                    / 100
                                    * float(self.amount_operand))
         elif operation == 'sqrt_num':
-            self.sqrt_of_num = self.float_to_int(math.sqrt(
-                self.lcdNumber.value()))
-            self.amount_operand = str(self.sqrt_of_num)
+            try:
+                self.sqrt_of_num = self.float_to_int(math.sqrt(
+                    self.lcdNumber.value()))
+            except ValueError:
+                error = True
+                self.init_operand('Error')
+            else:
+                self.amount_operand = str(self.sqrt_of_num)
         if ((len(self.oper) > 0 and operation == 'procent')
-                or operation == 'sqrt_num'):
+                or operation == 'sqrt_num' and error is False):
             self.amount_operand = '{:.12g}'.format(float(self.amount_operand))
             self.lcdNumber.display(self.amount_operand)
             self.operand.clear()
@@ -319,10 +321,10 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.lcdNumber.display(self.amount_operand)
             if len(self.operand) == 0 or (len(self.operand) == 1
                                           and self.operand[0] == '-'):
-                self.init_operand()
+                self.init_operand(0)
 
     def clear_entry(self):
-        self.init_operand()
+        self.init_operand(0)
 
     @service_info()
     def clear_all(self):
