@@ -76,7 +76,7 @@ class DataManager:
                     json_data = json.dumps(data, indent=3)
                     file.write(json_data)
 
-            with open('saves/data.json', 'r') as file:
+            with open('saves/data.json', 'r', encoding='utf-8') as file:
                 json_data = json.load(file)
 
             with open('saves/data.json', 'w', encoding='utf-8') as file:
