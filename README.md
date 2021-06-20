@@ -12,27 +12,32 @@ Gui powered by PyQt5.<br>
 # For running application:
  * Python 3.8.6
  * [PyQt5](https://pypi.org/project/PyQt5/)
- * [mysql-connector](https://pypi.org/project/mysql-connector/)
- * [MySQL](https://dev.mysql.com/downloads/)
+ * [mysql-connector-python](https://pypi.org/project/mysql-connector-python/)
+ * [MySQL 8](https://dev.mysql.com/downloads/mysql/)
 # How to use:
-- with writing results:
-  - if want to use MySQL:
-    - [install MySQL](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/windows-installation.html)
-    - configure and launch:
+- ### With writing results:
+  - #### if want to use MySQL (optional feature):
+    - [get start installing MySQL 8](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/windows-installation.html)
+    - create MySQL admin login in root_config.py
+      ```python
+         config = {'host': '127.0.0.1',
+                   'user': 'root',
+                   'password': 'randompassword'}
+      ```
+    - configure and launch scripts:
       - create_database.py (if necessary)
       - create_user.py (if necessary)
       - create_table.py
-    - configure MySQL login and database to use in config.py
+    - configure the MySQL login and database for use by third-party users in config.py
        ```python
-          config = {
-          'host': '127.0.0.1',
-          'user': 'defaultname',
-          'password': 'defaultpassword',
-          'database': 'defaultdatabase'}
+          config = {'host': '127.0.0.1',
+                    'user': 'randomname',
+                    'password': 'randompassword',
+                    'database': 'randomdatabase'}
        ```
-  - launch main.py
-- without writing results:
-  - launch main_not_write.py
+  - #### launch main.py
+- ### Without writing results:
+  - #### launch main_not_write.py
 # Additional Resource:
   [MySQL Connector/Python Developer Guide](https://dev.mysql.com/doc/connector-python/en/)
 # How to view the results of calculations:
