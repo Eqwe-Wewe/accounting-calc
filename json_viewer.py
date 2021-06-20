@@ -25,7 +25,7 @@ class Window(QWidget):
         if not os.path.exists('saves/data.csv'):
             self.list.addItem('Отсутсвует сохранение')
         else:
-            with open('saves/data.json', 'r') as file:
+            with open('saves/data.json', 'r', encoding='utf-8') as file:
                 data = json.load(file)
                 self.lst = []
                 for num, row in enumerate(data, 1):
