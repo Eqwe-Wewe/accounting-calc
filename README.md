@@ -41,6 +41,9 @@ Gui powered by PyQt5.<br>
 # Additional Resource:
   [MySQL Connector/Python Developer Guide](https://dev.mysql.com/doc/connector-python/en/)
 # How to view the results of calculations:
-- csv_viewer.py
-- json_viewer.py
-- mysql_viewer.py
+- csv_viewer.py<br>
+![](docs/Screenshot_2.png)
+- json_viewer.py<br>
+![](docs/Screenshot_3.png)
+- mysql_viewer.py<br>
+![](docs/Screenshot_4.png)
