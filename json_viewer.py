@@ -1,9 +1,13 @@
+#!/usr/bin/env python
+
 import sys
 import os
 import json
 from datetime import datetime
-from PyQt5.QtWidgets import QWidget, QApplication, QListWidget, QGridLayout
+from PyQt5.QtWidgets import (QWidget, QApplication, QListWidget, QVBoxLayout,
+                             QPushButton)
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
 import resources
 
 
@@ -14,11 +18,18 @@ class Window(QWidget):
 
     def initUI(self):
         self.resize(600, 500)
-        self.g_layout = QGridLayout(self)
+        self.g_layout = QVBoxLayout(self)
         self.list = QListWidget(self)
+        self.list.setWordWrap(True)
         self.g_layout.addWidget(self.list)
         self.setWindowTitle('JSON viewer')
         self.setWindowIcon(QIcon(':/resource/viewer.png'))
+        self.refresh_button = QPushButton(self)
+        self.refresh_button.setText('refresh')
+        self.refresh_button.pressed.connect(self.browse)
+        self.refresh_button.setMaximumWidth(170)
+        self.g_layout.addWidget(self.refresh_button,
+                                alignment=Qt.AlignCenter)
 
     def browse(self):
         self.list.clear()
