@@ -194,41 +194,44 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
 
     @service_info()
     def calculation(self):
+        error = False
         if self.oper[1] == '+':
-            self.result = str(self.float_to_int(
+            self.amount_operand = str(self.float_to_int(
                 Decimal(self.oper[0])
                 + Decimal(self.oper[2])))
         elif self.oper[1] == '-':
-            self.result = str(self.float_to_int(
+            self.amount_operand = str(self.float_to_int(
                 Decimal(self.oper[0])
                 - Decimal(self.oper[2])))
         elif self.oper[1] == '*':
-            self.result = str(self.float_to_int(
+            self.amount_operand = str(self.float_to_int(
                 Decimal(self.oper[0])
                 * Decimal(self.oper[2])))
-        try:
-            if self.oper[1] == '/':
-                self.result = str(self.float_to_int(
+        elif self.oper[1] == '/':
+            try:
+                self.amount_operand = str(self.float_to_int(
                     Decimal(self.oper[0])
                     / Decimal(self.oper[2])))
-        except ZeroDivisionError:
-            self.init_operand('Error')
-            self.history.clear()
-            self.oper.clear()
-            self.num_eq.setEnabled(False)
+            except ZeroDivisionError:
+                self.init_operand('Error')
+                self.history.clear()
+                self.num_eq.setEnabled(False)
+                error = True
+        if error is True:
+            result = 'Error'
+            self.amount_operand = '0'
         else:
-            self.result = '{:.12g}'.format(float(self.result))
-            self.amount_operand = self.result
-            self.lcdNumber.display(self.result)
+            self.operand.clear()
+            self.amount_operand = self.exp_num_reduction(self.amount_operand)
+            result = self.amount_operand
             self.history_operations()
+        self.lcdNumber.display(result)
 
     def history_operations(self):
-        a = '{:,.15g}'.format(self.float_to_int(self.oper[0])).replace(
-            ',', ' ')
+        a = '{:,.12g}'.format(float(self.oper[0])).replace(',', ' ')
         b = str(self.oper[1])
         if len(self.oper) == 3:
-            c = '{:,.15g}'.format(self.float_to_int(self.oper[2])).replace(
-                ',', ' ')
+            c = '{:,.12g}'.format(float(self.oper[2])).replace(',', ' ')
             d = ' ='
             self.history.setText(' '.join([a, b, c, d]))
         else:
@@ -270,7 +273,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
     @service_info()
     def sign_change(self):
         '''изменение знака у числа'''
-        if self.operand != ['0']:
+        if self.operand != ['0'] and len(self.operand) > 0:
             if '-' not in self.operand:
                 self.operand.insert(0, '-')
             else:
@@ -282,7 +285,7 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
     def extended_operations(self, operation):
         error = False
         if operation == 'procent' and len(self.oper) > 0:
-            self.amount_operand = (self.float_to_int(self.oper[0])
+            self.amount_operand = str(self.float_to_int(self.oper[0])
                                    / 100
                                    * float(self.amount_operand))
         elif operation == 'sqrt_num':
@@ -294,9 +297,13 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
                 self.init_operand('Error')
             else:
                 self.amount_operand = str(self.sqrt_of_num)
-        if ((len(self.oper) > 0 and operation == 'procent')
+        if error is True:
+            result = 'Error'
+            self.amount_operand = '0'
+        elif ((len(self.oper) > 0 and operation == 'procent')
                 or operation == 'sqrt_num' and error is False):
-            self.amount_operand = '{:.12g}'.format(float(self.amount_operand))
+            self.amount_operand = self.exp_num_reduction(self.amount_operand)
+            result = self.amount_operand
             self.lcdNumber.display(self.amount_operand)
             self.operand.clear()
 
@@ -304,6 +311,13 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         '''удаление десятичного разделителя у целого числа'''
         if self.amount_operand[-1] == '.':
             self.amount_operand = self.amount_operand[:-1:]
+
+    def exp_num_reduction(self, num):
+        '''сокращение экспоненциальной формы числа для его
+        полного отображения на дисплее'''
+        if len(num) > 12:
+            return '{:.8g}'.format(self.float_to_int(num))
+        return num
 
     def float_to_int(self, result):
         '''проверка полученного числа на целочисленность'''
