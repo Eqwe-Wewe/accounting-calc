@@ -17,17 +17,19 @@ def service_info(enable=0):
         def wrapper2(self, *args, **kwargs):
             result = method(self, *args, **kwargs)
             if enable == 1:
-                print(f'данные с экрана: {self.lcdNumber.value()}',
-                      f'{self.operand = }',
-                      f'{self.operand_pass = }',
-                      f'{self.oper = }',
-                      f'{self.point_eq = }',
-                      f'{self.p_point = }',
-                      f'{self.amount_operand = }',
-                      f'{self.memory_cell = }',
-                      f'{self.num_eq.isEnabled() = }',
-                      '\t',
-                      sep='\n')
+                print(
+                    f'данные с экрана: {self.lcdNumber.value()}'
+                    f'{self.operand = }'
+                    f'{self.operand_pass = }'
+                    f'{self.oper = }'
+                    f'{self.point_eq = }'
+                    f'{self.p_point = }'
+                    f'{self.amount_operand = }'
+                    f'{self.memory_cell = }'
+                    f'{self.num_eq.isEnabled() = }',
+                    '\t',
+                    sep='\n'
+                )
             return result
         return wrapper2
     return wrapper
@@ -70,15 +72,17 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         self.num_mc.pressed.connect(self.memory_clear)
         self.num_mr.pressed.connect(self.memory_read)
         self.num_m_minus.pressed.connect(
-            lambda: self.memory_add_sub('memory-'))
+            lambda: self.memory_add_sub('memory-')
+        )
         self.num_m_plus.pressed.connect(
-            lambda: self.memory_add_sub('memory+'))
+            lambda: self.memory_add_sub('memory+')
+        )
         self.num_procent.pressed.connect(
-            lambda: self.extended_operations(
-                'procent'))
+            lambda: self.extended_operations('procent')
+        )
         self.num_sqrt.pressed.connect(
-            lambda: self.extended_operations(
-                'sqrt_num'))
+            lambda: self.extended_operations('sqrt_num')
+        )
         self.setWindowIcon(QIcon(':/resource/calculator.ico'))
 
     def keyPressEvent(self, event):
@@ -164,8 +168,9 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         self.num_eq.setEnabled(True)
         self.operation_val = value
         self.remove_point()
-        if self.operand_pass is True and (self.oper != []
-                                          and self.point_eq is False):
+        if self.operand_pass is True and (
+            self.oper != [] and self.point_eq is False
+        ):
             self.eq()
         self.operand_pass = False
         self.oper = [self.amount_operand, self.operation_val]
@@ -199,23 +204,31 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
             self.amount_operand = str(
                 self.float_to_int(
                     Decimal(self.oper[0])
-                    + Decimal(self.oper[2])))
+                    + Decimal(self.oper[2])
+                )
+            )
         elif self.oper[1] == '-':
             self.amount_operand = str(
                 self.float_to_int(
                     Decimal(self.oper[0])
-                    - Decimal(self.oper[2])))
+                    - Decimal(self.oper[2])
+                )
+            )
         elif self.oper[1] == '*':
             self.amount_operand = str(
                 self.float_to_int(
                     Decimal(self.oper[0])
-                    * Decimal(self.oper[2])))
+                    * Decimal(self.oper[2])
+                )
+            )
         elif self.oper[1] == '/':
             try:
                 self.amount_operand = str(
                     self.float_to_int(
                         Decimal(self.oper[0])
-                        / Decimal(self.oper[2])))
+                        / Decimal(self.oper[2])
+                    )
+                )
             except ZeroDivisionError:
                 self.init_operand('Error')
                 self.history.clear()
@@ -254,7 +267,8 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
         elif argument == 'memory-':
             self.memory_cell -= self.lcdNumber.value()
         self.memory_cell = self.float_to_int(
-            '{:.12g}'.format(self.memory_cell))
+            '{:.12g}'.format(self.memory_cell)
+        )
         self.operand.clear()
         if self.memory_cell != 0:
             self.label.setText('M')
@@ -289,18 +303,23 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
                 self.float_to_int(
                     float(self.oper[0])
                     / 100
-                    * float(self.amount_operand)))
+                    * float(self.amount_operand)
+                )
+            )
         elif operation == 'sqrt_num':
             try:
                 self.amount_operand = str(
                     self.float_to_int(
                         math.sqrt(
-                            self.lcdNumber.value())))
+                            self.lcdNumber.value())
+                    )
+                )
             except ValueError:
                 error = True
                 self.init_operand('Error')
-        if operation == 'procent' or (operation == 'sqrt_num'
-                                      and error is False):
+        if operation == 'procent' or (
+            operation == 'sqrt_num' and error is False
+        ):
             self.amount_operand = self.exp_num_reduction(self.amount_operand)
             self.lcdNumber.display(self.amount_operand)
             self.operand.clear()
@@ -331,8 +350,9 @@ class Exx(QtWidgets.QMainWindow, gui_calculator.Ui_MainWindow, DataManager):
                 self.p_point = False
             self.amount_operand = ''.join(self.operand)
             self.lcdNumber.display(self.amount_operand)
-            if len(self.operand) == 0 or (len(self.operand) == 1
-                                          and self.operand[0] == '-'):
+            if len(self.operand) == 0 or (
+                len(self.operand) == 1 and self.operand[0] == '-'
+            ):
                 self.init_operand(0)
 
     def clear_entry(self):
