@@ -18,18 +18,17 @@ class Window(QWidget):
 
     def initUI(self):
         self.resize(600, 500)
-        self.g_layout = QVBoxLayout(self)
+        self.v_layout = QVBoxLayout(self)
         self.list = QListWidget(self)
         self.list.setWordWrap(True)
-        self.g_layout.addWidget(self.list)
+        self.v_layout.addWidget(self.list)
         self.setWindowTitle('JSON viewer')
         self.setWindowIcon(QIcon(':/resource/viewer.png'))
         self.refresh_button = QPushButton(self)
         self.refresh_button.setText('refresh')
         self.refresh_button.pressed.connect(self.browse)
         self.refresh_button.setMaximumWidth(170)
-        self.g_layout.addWidget(self.refresh_button,
-                                alignment=Qt.AlignCenter)
+        self.v_layout.addWidget(self.refresh_button, alignment=Qt.AlignCenter)
 
     def browse(self):
         self.list.clear()
@@ -40,12 +39,15 @@ class Window(QWidget):
                 data = json.load(file)
                 self.lst = []
                 for num, row in enumerate(data, 1):
-                    row = ('{}. {:%d.%m.%Y, в %H:%M} была выполнена '
-                           'операция {} с итоговым ответом {}\n').format(
-                               num,
-                               datetime.fromisoformat(row["datetime"]),
-                               row["operation"],
-                               row["result"])
+                    row = (
+                        '{}. {:%d.%m.%Y, в %H:%M} была выполнена '
+                        'операция {} с итоговым ответом {}\n'
+                    ).format(
+                        num,
+                        datetime.fromisoformat(row["datetime"]),
+                        row["operation"],
+                        row["result"]
+                    )
                     self.list.addItem(row)
                     self.lst.append(row)
 
