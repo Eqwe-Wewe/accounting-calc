@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
 
 import sys
 from data_manager import DataBaseQuery
@@ -54,7 +54,10 @@ class Window(QWidget):
         '''задает диапазон значений для просмотра'''
         try:
             with DataBaseQuery(config) as cursor:
-                operation = """SELECT count(*) FROM calculator"""
+                operation = """
+                                SELECT count(*)
+                                FROM   calculator;
+                            """
                 cursor.execute(operation)
         except AttributeError as err:
             print(f'mysql_viewer Error: {err}')
@@ -68,15 +71,25 @@ class Window(QWidget):
         if self.spin.value() > self.spin2.value():
             self.list.clear()
             self.list.addItem(
-                'The value of "from" is greater than the value of "to".')
+                'The value of "from" is greater than the value of "to".'
+            )
         else:
             try:
                 with DataBaseQuery(config) as cursor:
-                    operation = f"""SELECT * FROM calculator ORDER BY id LIMIT
-                                {from_val},{to_val}; SELECT count(*)
-                                FROM calculator"""
-                    files = [result.fetchall() for result in cursor.execute(
-                        operation, multi=True)]
+                    operation = f"""
+                                    SELECT   *
+                                    FROM     calculator
+                                    ORDER BY id
+                                             LIMIT{from_val},{to_val};
+
+                                    SELECT count(*)
+                                    FROM   calculator;
+                                 """
+                    files = [
+                        result.fetchall() for result in cursor.execute(
+                            operation, multi=True
+                        )
+                    ]
             except AttributeError as err:
                 print(f'mysql_viewer Error: {err}')
             else:
@@ -93,9 +106,11 @@ class Window(QWidget):
     def browse(self):
         self.list.clear()
         for i in range(self.spin2.value() - self.spin.value() + 1):
-            i = (f"Операция [{self.file[i][1]}] под № {self.file[i][0]}",
-                 f" c результатом {self.file[i][2]} была выполнена ",
-                 f"{self.file[i][3]:%d.%m.%Y в %H:%M:%S} \n")
+            i = (
+                f"Операция [{self.file[i][1]}] под № {self.file[i][0]}"
+                f" c результатом {self.file[i][2]} была выполнена "
+                f"{self.file[i][3]:%d.%m.%Y в %H:%M:%S} \n"
+            )
             self.list.addItem(i)
 
 
