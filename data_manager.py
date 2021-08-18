@@ -6,7 +6,7 @@ from config import config
 
 
 class DataBaseQuery:
-    def __init__(self, config):
+    def __init__(self, config: dict):
         self.configuration = config
 
     def __enter__(self):
@@ -36,19 +36,26 @@ class DataManager:
     def write_csv(rows):
         try:
             if not os.path.exists('saves/data.csv'):
-                with open('saves/data.csv',
-                          'w',
-                          newline='',
-                          encoding='utf-8') as file:
+                with open(
+                    'saves/data.csv',
+                    'w',
+                    newline='',
+                    encoding='utf-8'
+                ) as file:
                     writer = csv.writer(file, delimiter=';')
-                    writer.writerow([
-                        'операции',
-                        'результаты',
-                        'время'])
-            with open('saves/data.csv',
-                      'a',
-                      newline='',
-                      encoding='utf-8') as file:
+                    writer.writerow(
+                        [
+                            'операции',
+                            'результаты',
+                            'время'
+                        ]
+                    )
+            with open(
+                'saves/data.csv',
+                'a',
+                newline='',
+                encoding='utf-8'
+            ) as file:
                 writer = csv.writer(file, delimiter=';')
                 writer.writerows(rows)
                 print('CSV entry successful!')
@@ -58,10 +65,15 @@ class DataManager:
     @classmethod
     def write_database(self, data):
         with DataBaseQuery(config) as self.cursor:
-            self.command = """insert into calculator
-                            (operation, result, date_of_use)
-                            values
-                            (%s, %s, %s);"""
+            self.command = """
+                              INSERT INTO calculator
+                                          (
+                                          operation,
+                                          result,
+                                          date_of_use
+                                          )
+                              VALUES      (%s, %s, %s);
+                           """
             try:
                 self.cursor.executemany(self.command, data)
             except AttributeError as err:
@@ -81,9 +93,13 @@ class DataManager:
 
             with open('saves/data.json', 'w', encoding='utf-8') as file:
                 for i in data_to_insert:
-                    json_data.append({'operation': i[0],
-                                      'result': i[1],
-                                      'datetime': i[2]})
+                    json_data.append(
+                        {
+                            'operation': i[0],
+                            'result': i[1],
+                            'datetime': i[2]
+                        }
+                    )
                 json_data = json.dumps(json_data, indent=3, ensure_ascii=False)
                 file.write(json_data)
                 print('json entry successful!')
