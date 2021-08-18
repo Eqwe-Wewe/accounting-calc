@@ -4,9 +4,9 @@ import sys
 import os
 from datetime import datetime
 import csv
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QApplication,
-                             QTableWidget, QTableWidgetItem, QHeaderView,
-                             QLabel, QPushButton)
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QApplication, QTableWidget,
+                             QTableWidgetItem, QHeaderView, QLabel,
+                             QPushButton)
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import resources
@@ -29,13 +29,16 @@ class Window(QWidget):
         self.refresh_button.setText('refresh')
         self.refresh_button.pressed.connect(self.refresh)
         self.refresh_button.setMaximumWidth(170)
-        self.v_layout.addWidget(self.refresh_button,
-                                alignment=Qt.AlignCenter)
-        self.table.horizontalHeader().setSectionResizeMode(
-            QHeaderView.Stretch)
+        self.v_layout.addWidget(
+            self.refresh_button,
+            alignment=Qt.AlignCenter
+        )
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.table.horizontalHeader().setDefaultSectionSize(120)
         self.table.horizontalHeader().setSectionResizeMode(
-            2, QHeaderView.Fixed)
+            2,
+            QHeaderView.Fixed
+        )
 
     def open_file(self):
         if not os.path.exists('saves/data.csv'):
@@ -53,13 +56,24 @@ class Window(QWidget):
                     else:
                         for col in row:
                             self.table.setItem(
-                                num, 0, QTableWidgetItem(row[0]))
+                                num,
+                                0,
+                                QTableWidgetItem(row[0])
+                            )
                             self.table.setItem(
-                                num, 1, QTableWidgetItem(row[1]))
+                                num,
+                                1,
+                                QTableWidgetItem(row[1])
+                            )
                             self.table.setItem(
-                                num, 2, QTableWidgetItem(
+                                num,
+                                2,
+                                QTableWidgetItem(
                                     '{:%H:%M:%S, %d.%m.%Y}'.format(
-                                        datetime.fromisoformat(row[2]))))
+                                        datetime.fromisoformat(row[2])
+                                    )
+                                )
+                            )
 
     def refresh(self):
         for row in range(self.table.rowCount()):
